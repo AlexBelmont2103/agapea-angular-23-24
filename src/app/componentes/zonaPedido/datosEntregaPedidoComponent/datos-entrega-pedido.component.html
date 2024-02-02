@@ -39,11 +39,11 @@
             <div class="row">
                 <div class="col-6">
                     <label for="inputPais" class="form-label">Pais</label>
-                    <input type="text" class="form-control" id="inputPais" placeholder="España" name="pais" />
+                    <input type="text" class="form-control" id="inputPais" placeholder="España" name="pais"  />
                 </div>
                 <div class="col-6">
                     <label for="inputProvincia" class="form-label">Provincia*</label>
-                    <select id="inputProvincia" class="form-select" name="provincia" (change)="cargarMunicipios($any($event.target).value)" >
+                    <select id="inputProvincia" class="form-select" name="provincia" (change)="cargarMunicipios($event)" >
                         <option value="-1" selected> - Seleccionar Provincia - </option>
                         @for(unaprov of this.provincias ; track unaprov.CPRO)
                         {

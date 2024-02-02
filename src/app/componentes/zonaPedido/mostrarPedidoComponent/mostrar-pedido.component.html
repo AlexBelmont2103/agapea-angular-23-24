@@ -2,7 +2,7 @@
     <div class="row">
         <!-- columna para datos del pedido: direccion envio, facturacion, datos pago-->
         <div class="col-7">
-            <app-datos-entrega-pedido (gastosEnvio)="ManejarGastosEnvio($event)" [provincias]="(this.provincias$ | async)!"></app-datos-entrega-pedido>  
+            <app-datos-entrega-pedido [datosPago$]="this.datosPago$" (gastosEnvio)="ManejarGastosEnvio($event)" [provincias]="(this.provincias$ | async)!"></app-datos-entrega-pedido>  
         </div>
 
         <!-- columna para elementos del pedido, subtotal, gastos envio y total -->

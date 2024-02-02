@@ -2,18 +2,18 @@ import { IDireccion } from "./direccion";
 
 export interface IDatosPago {
     tipodireccionenvio: string;
-    direccionPrincipal?: IDireccion;
+    direccionPrincipal: IDireccion;
     //Datos envío
-    direccionEnvio?: IDireccion;
+    direccionEnvio: IDireccion;
     nombreEnvio: string;
     apellidosEnvio: string;
     telefonoEnvio: string;
     emailEnvio: string;
 
     //Datos de facturación
-    tipoFactura?: string;
-    nombreFactura?: string;
-    docfiscalFactura?: string;
+    tipoFactura: string;
+    nombreFactura: string;
+    docfiscalFactura: string;
 
     //Datos pago
     metodoPago: string;

@@ -6,6 +6,7 @@ import { IDireccion } from '../../../modelos/direccion';
 import { IProvincia } from '../../../modelos/provincia';
 import { IMunicipio } from '../../../modelos/municipio';
 import { RestnodeService } from '../../../servicios/restnode.service';
+import { IDatosPago } from '../../../modelos/datospago';
 
 @Component({
   selector: 'app-datos-entrega-pedido',
@@ -14,12 +15,14 @@ import { RestnodeService } from '../../../servicios/restnode.service';
 })
 export class DatosEntregaPedidoComponent implements OnDestroy {
   @Input()provincias!: IProvincia[];
+  @Input()datosPago$!: Observable<IDatosPago>;
   @Output() checkdatosFacturacionEnvio:EventEmitter<boolean>=new EventEmitter<boolean>();
   @Output() gastosEnvio:EventEmitter<number>=new EventEmitter<number>();
   @ViewChild('selectmunis') selectmunis!: ElementRef;
 
   public datoscliente!: ICliente | null;
   public direccionprincipal!: IDireccion | undefined;
+  public otraDireccion: IDireccion | undefined;
   public datosclienteSubsciptor: Subscription;
   public listaMunicipios$!:Observable<IMunicipio[]>;
 
@@ -42,12 +45,13 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
         )!;
       });
   }
-  cargarMunicipios(provSelect: string): void {
-    let codpro = provSelect.split('-')[0];
+  cargarMunicipios(event: Event): void {
+    const codpro = (event.target as HTMLSelectElement).value.split('-')[0];
     this.listaMunicipios$ = this.restSvc.RecuperarMunicipios(codpro);
     this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
     //Arpovechamos este método para calcular el precio del envío
     this.CalculaPrecioEnvio(codpro);
+
   }
   CalculaPrecioEnvio(codpro: string): void {
     //35 el codigo de las palmas
@@ -61,8 +65,15 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
     }
   }
 
+
+
+
   CheckdirPpalEnvio(check: boolean): void {
     this.checkdirppalenvio = check;
+  }
+
+  changeOtraDireccion(event : Event){
+
   }
 
   CheckClienteLoggedEnvio(check: boolean): void {

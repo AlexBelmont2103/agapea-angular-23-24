@@ -4,6 +4,7 @@ import { IStorageService } from '../../../modelos/interfaceservicios';
 import { ILibro } from '../../../modelos/libro';
 import { IProvincia } from '../../../modelos/provincia';
 import { RestnodeService } from '../../../servicios/restnode.service';
+import { IDatosPago } from '../../../modelos/datospago';
 
 @Component({
   selector: 'app-mostrar-pedido',
@@ -11,6 +12,8 @@ import { RestnodeService } from '../../../servicios/restnode.service';
   styleUrl: './mostrar-pedido.component.css',
 })
 export class MostrarPedidoComponent implements OnDestroy{
+  //Observable que contiene todos los datos del pago
+  public datosPago$!: Observable<IDatosPago>;
   public listaItems$!: Observable<
     { libroElemento: ILibro; cantidadElemento: number }[]
   >;
@@ -26,7 +29,7 @@ export class MostrarPedidoComponent implements OnDestroy{
   ) {
     this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
     this.provincias$ = this.restSvc.RecuperarProvincias();
-    
+    this.datosPago$ = this.storageSvc.RecuperarDatosPago();
     //Calcular el subtotal y el total del pedido
     this.subtotalPedido$ = this.listaItems$.pipe(
       map((listaItems: { libroElemento: ILibro; cantidadElemento: number }[]) =>

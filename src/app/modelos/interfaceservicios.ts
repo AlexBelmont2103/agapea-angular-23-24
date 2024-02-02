@@ -2,6 +2,7 @@ import { Observable } from "rxjs";
 import { ICliente } from "./cliente";
 import { ILibro } from "./libro";
 import { IPedido } from "./pedido";
+import { IDatosPago } from "./datospago";
 
 export interface IStorageService{
     //#region metodos SINCRONOS para servicios localstorage, subjectstorage
@@ -11,6 +12,8 @@ export interface IStorageService{
     RecuperarDatosCliente():Observable<ICliente | null>;
     OperarElementosPedido(libro:ILibro, operacion:string):void;
     RecuperarElementosPedido():Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]>;
+    RecuperarDatosPago():Observable<IDatosPago>;
+    AlmacenarDatosPago(datosPago:IDatosPago):void;
     //#endregion
 
     //#region metodos ASINCRONOS para servicios indexedDB

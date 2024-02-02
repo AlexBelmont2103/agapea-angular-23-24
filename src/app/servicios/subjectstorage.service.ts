@@ -5,6 +5,7 @@ import { IStorageService } from '../modelos/interfaceservicios';
 import { IPedido } from '../modelos/pedido';
 import { ILibro } from '../modelos/libro';
 import { IDireccion } from '../modelos/direccion';
+import { IDatosPago } from '../modelos/datospago';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +13,21 @@ import { IDireccion } from '../modelos/direccion';
 export class SubjectstorageService implements IStorageService {
   private _clienteSubject$ = new BehaviorSubject<ICliente |null>(null);
   private _jwtSubject$ = new BehaviorSubject<string>("");
-  private _elementosPedidoSubject$:BehaviorSubject<{ libroElemento:ILibro, cantidadElemento:number}[]> = new BehaviorSubject<{ libroElemento:ILibro, cantidadElemento:number}[]>( [] );
+  private _elementosPedidoSubject$:BehaviorSubject<
+    { libroElemento:ILibro, cantidadElemento:number}[]> = new BehaviorSubject<{ libroElemento:ILibro, cantidadElemento:number}[]>( [] );
+  private _datosPagoSubject$ = new BehaviorSubject<IDatosPago>({}as IDatosPago);
   constructor() {}
+  RecuperarDatosCliente(): Observable<ICliente | null> {
+    return this._clienteSubject$.asObservable();
+  }
   RecuperarJWT(): Observable<string> {
     return this._jwtSubject$.asObservable();
   }
   RecuperarElementosPedido(): Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]> {
     return this._elementosPedidoSubject$.asObservable();
+  }
+  RecuperarDatosPago(): Observable<IDatosPago> {
+    return this._datosPagoSubject$.asObservable();
   }
   AlmacenarDatosCLiente(datoscliente: ICliente): void {
     this._clienteSubject$.next(datoscliente);
@@ -26,8 +35,8 @@ export class SubjectstorageService implements IStorageService {
   AlmacenarJWT(jwt: string): void {
     this._jwtSubject$.next(jwt);
   }
-  RecuperarDatosCliente(): Observable<ICliente | null> {
-    return this._clienteSubject$.asObservable();
+  AlmacenarDatosPago(datosPago: IDatosPago): void {
+    this._datosPagoSubject$.next(datosPago);
   }
   OperarElementosPedido(libro: ILibro, operacion: string): void {
     switch (operacion) {
