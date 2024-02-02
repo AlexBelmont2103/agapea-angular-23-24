@@ -7,6 +7,7 @@ import { IProvincia } from '../../../modelos/provincia';
 import { IMunicipio } from '../../../modelos/municipio';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { IDatosPago } from '../../../modelos/datospago';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-datos-entrega-pedido',
@@ -15,7 +16,7 @@ import { IDatosPago } from '../../../modelos/datospago';
 })
 export class DatosEntregaPedidoComponent implements OnDestroy {
   @Input()provincias!: IProvincia[];
-  @Input()datosPago$!: Observable<IDatosPago>;
+  @Input()datosEnvioGroup!: FormGroup;
   @Output() checkdatosFacturacionEnvio:EventEmitter<boolean>=new EventEmitter<boolean>();
   @Output() gastosEnvio:EventEmitter<number>=new EventEmitter<number>();
   @ViewChild('selectmunis') selectmunis!: ElementRef;
@@ -48,7 +49,7 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
   cargarMunicipios(event: Event): void {
     const codpro = (event.target as HTMLSelectElement).value.split('-')[0];
     this.listaMunicipios$ = this.restSvc.RecuperarMunicipios(codpro);
-    this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
+
     //Arpovechamos este método para calcular el precio del envío
     this.CalculaPrecioEnvio(codpro);
 
@@ -70,10 +71,6 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
 
   CheckdirPpalEnvio(check: boolean): void {
     this.checkdirppalenvio = check;
-  }
-
-  changeOtraDireccion(event : Event){
-
   }
 
   CheckClienteLoggedEnvio(check: boolean): void {

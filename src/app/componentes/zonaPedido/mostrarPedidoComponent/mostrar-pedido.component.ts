@@ -5,6 +5,7 @@ import { ILibro } from '../../../modelos/libro';
 import { IProvincia } from '../../../modelos/provincia';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { IDatosPago } from '../../../modelos/datospago';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-mostrar-pedido',
@@ -21,6 +22,23 @@ export class MostrarPedidoComponent implements OnDestroy{
   public gastosEnvio: number = 0;
   public provincias$!: Observable<IProvincia[]>;
   public showcompodatosfacturacion: boolean = false;
+  public formDatosPedido: FormGroup = new FormGroup({
+    datosEnvio: new FormGroup({
+      tipodireccionenvio: new FormControl(''),
+      direccionEnvio: new FormGroup({
+        calle: new FormControl(''),
+        cp: new FormControl(''),
+        pais: new FormControl(''),
+        provincia: new FormControl(''),
+        municipio: new FormControl('',),
+        nombreEnvio: new FormControl(''),
+        apellidosEnvio: new FormControl(''),
+        telefonoEnvio: new FormControl(''),
+        emailEnvio: new FormControl(''),
+      }),
+
+    }),
+  });
 
 
   constructor(
@@ -30,6 +48,8 @@ export class MostrarPedidoComponent implements OnDestroy{
     this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
     this.provincias$ = this.restSvc.RecuperarProvincias();
     this.datosPago$ = this.storageSvc.RecuperarDatosPago();
+    //Deshabilitar el select de municipios
+    this.formDatosPedido.get('datosEnvio.direccionEnvio.municipio')?.disable();
     //Calcular el subtotal y el total del pedido
     this.subtotalPedido$ = this.listaItems$.pipe(
       map((listaItems: { libroElemento: ILibro; cantidadElemento: number }[]) =>
@@ -71,7 +91,10 @@ export class MostrarPedidoComponent implements OnDestroy{
   ManejarGastosEnvio(gastosEnvio: number): void {
     this.gastosEnvio = gastosEnvio;
   }
-
+  RegistrarPedido(): void {
+    console.log('Pedido registrado');
+    console.log(this.formDatosPedido);
+  }
 
   ngOnDestroy(): void {
     
