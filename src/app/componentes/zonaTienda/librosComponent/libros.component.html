@@ -1,0 +1,39 @@
+<!-- VERSION ANTIGUA
+<div class="container">
+  
+  <div class="row" *ngIf="(this.listaLibros$|async)?.length !==0; else noLibros">
+    <div class="row">
+            <div class="col-4" *ngFor="let libro of (this.listaLibros$|async)">
+                <app-minilibro [libro]="libro"></app-minilibro>
+            </div>
+    </div>
+</div>
+
+<ng-template #noLibros>
+    <div class="row">
+        <div class="col">
+            <p>No se encontraron libros</p>
+        </div>
+    </div>
+</ng-template>
+</div>
+-->
+<!-- VERSION ANGULAR 17 -->
+<div class="container">
+    @if((this.listaLibros$|async)?.length !==0){
+        <div class="row">
+            @for( libro of (this.listaLibros$|async); track libro.ISBN13){
+                <div class="col-4">
+                    <app-minilibro [libro]="libro"></app-minilibro>
+                </div>
+            }
+
+        </div>
+    }@else {
+        <div class="row">
+            <div class="col">
+                <p>No se encontraron libros</p>
+            </div>
+        </div>
+    }
+</div>

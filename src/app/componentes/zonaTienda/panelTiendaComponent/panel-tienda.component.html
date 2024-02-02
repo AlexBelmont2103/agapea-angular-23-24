@@ -1,0 +1,8 @@
+<div class="container">
+    <h6>Categorías</h6>
+    <div class="list-group">
+        @for (cat of this.cats; track cat.IdCategoria) {
+            <a routerLink="Tienda/Libros/{{cat.IdCategoria}}" class="list-group-item list-group-item-action">{{cat.NombreCategoria}}</a>
+        }
+    </div>
+</div>

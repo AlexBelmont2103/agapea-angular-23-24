@@ -1,0 +1,16 @@
+export interface ILibro{
+    Autores: string,
+    Dimensiones: string,
+    Edicion: string,
+    Editorial: string,
+    ISBN10: string,
+    ISBN13: string,
+    IdCategoria: string,
+    Idioma: string,
+    ImagenLibro: string,
+    ImagenLibroBASE64: string,
+    NumeroPaginas: number,
+    Precio: number,
+    Resumen: string,
+    Titulo: string,
+}
