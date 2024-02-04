@@ -7,6 +7,6 @@ export interface IDireccion{
     pais: string,
     provincia: IProvincia,
     municipio: IMunicipio,
-    esPrincipal: boolean,
-    esFacturacion: boolean,
+    esPrincipal?: boolean,
+    esFacturacion?: boolean,
 }

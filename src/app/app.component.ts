@@ -25,14 +25,23 @@ export class AppComponent {
   public listaItems$!: Observable<
     { libroElemento: ILibro; cantidadElemento: number }[]
   >;
-  public numItems: number = 0;
-  public subtotalPedido: number = 0;
+  public numItems$!: Observable<number>
+  public subtotalPedido$!: Observable<number>
   constructor(
     private router: Router,
     @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService
   ) {
     this.clientelogged = this.storageSvc.RecuperarDatosCliente();
     this.tokenSesion = this.storageSvc.RecuperarJWT();
+    this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
+    this.numItems$= this.listaItems$.pipe(
+      //Por cada item, sumamos la cantidad
+      map((items) => items.reduce((acc, item) => acc + item.cantidadElemento, 0))
+    );
+    this.subtotalPedido$ = this.listaItems$.pipe(
+      //Por cada item, sumamos el precio por la cantidad
+      map((items) => items.reduce((acc, item) => acc + item.libroElemento.Precio * item.cantidadElemento, 0))
+    );
     this.routerEvents$ = router.events.pipe(
       //tap((ev) => console.log(ev)),
       map((ev) => ev as RouterEvent),

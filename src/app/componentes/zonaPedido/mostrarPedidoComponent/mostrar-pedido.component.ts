@@ -54,7 +54,7 @@ export class MostrarPedidoComponent implements OnDestroy {
     this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
     this.provincias$ = this.restSvc.RecuperarProvincias();
     this.datosPago$ = this.storageSvc.RecuperarDatosPago();
-
+    this.pedidoForm.get('datosPago.metodoPago')?.setValue('pagotarjeta');
 
     //Calcular el subtotal y el total del pedido
     this.subtotalPedido$ = this.listaItems$.pipe(
@@ -86,6 +86,74 @@ export class MostrarPedidoComponent implements OnDestroy {
   RegistrarPedido(): void {
     console.log('Pedido registrado');
     console.log('Datos del formulario de envio', this.pedidoForm);
+    if(this.pedidoForm.valid){
+      console.log('Formulario de envio valido');
+      //Mapeamos los campos del formulario a un objeto de tipo IDatosPago
+        /*
+        export interface IDatosPago {
+        tipodireccionenvio: string;
+        direccionPrincipal: IDireccion;
+        //Datos envío
+        direccionEnvio: IDireccion;
+        nombreEnvio: string;
+        apellidosEnvio: string;
+        telefonoEnvio: string;
+        emailEnvio: string;
+
+        //Datos de facturación
+        tipoFactura: string;
+        nombreFactura: string;
+        docfiscalFactura: string;
+
+        //Datos pago
+        metodoPago: string;
+        numeroTarjeta?: string;
+        nombreBanco?: string;
+        mesCaducidad?: string;
+        anioCaducidad?: string;
+        cvv?: string;}
+        */
+      const datosPago: IDatosPago = {
+        tipodireccionenvio: 'Principal',
+        direccionPrincipal: {
+          pais: this.pedidoForm.get('datosEnvio.pais')?.value,
+          calle: this.pedidoForm.get('datosEnvio.calle')?.value,
+          provincia: {
+            CPRO: this.pedidoForm.get('datosEnvio.provincia')?.value.split('-')[0],
+            PRO: this.pedidoForm.get('datosEnvio.provincia')?.value.split('-')[1],
+
+          },
+          municipio: {
+            CPRO: this.pedidoForm.get('datosEnvio.provincia')?.value.split('-')[0],
+            CMUM: this.pedidoForm.get('datosEnvio.municipio')?.value.split('-')[0],
+            DMUN50: this.pedidoForm.get('datosEnvio.municipio')?.value.split('-')[1],
+          },
+          cp: this.pedidoForm.get('datosEnvio.cp')?.value,
+          esPrincipal: true,
+        },
+        direccionEnvio: {
+          pais: this.pedidoForm.get('datosEnvio.pais')?.value,
+          calle: this.pedidoForm.get('datosEnvio.calle')?.value,
+          provincia: this.pedidoForm.get('datosEnvio.provincia')?.value,
+          municipio: this.pedidoForm.get('datosEnvio.municipio')?.value,
+          cp: this.pedidoForm.get('datosEnvio.cp')?.value,
+        },
+        nombreEnvio: this.pedidoForm.get('datosEnvio.nombre')?.value,
+        apellidosEnvio: this.pedidoForm.get('datosEnvio.apellidos')?.value,
+        telefonoEnvio: this.pedidoForm.get('datosEnvio.telefonoContacto')?.value,
+        emailEnvio: this.pedidoForm.get('datosEnvio.email')?.value,
+        tipoFactura: this.pedidoForm.get('datosFacturacion.tipoFactura')?.value,
+        nombreFactura: this.pedidoForm.get('datosFacturacion.nombre')?.value,
+        docfiscalFactura: this.pedidoForm.get('datosFacturacion.docfiscalFactura')?.value,
+        metodoPago: this.pedidoForm.get('datosPago.metodoPago')?.value,
+        numeroTarjeta: this.pedidoForm.get('datosPago.numeroTarjeta')?.value,
+        nombreBanco: this.pedidoForm.get('datosPago.nombreBanco')?.value,
+        mesCaducidad: this.pedidoForm.get('datosPago.mesCaducidad')?.value,
+        anioCaducidad: this.pedidoForm.get('datosPago.anioCaducidad')?.value,
+        cvv: this.pedidoForm.get('datosPago.cvv')?.value,
+      };
+      console.log('Datos del pedido', datosPago);
+    }
   }
 
   ngOnDestroy(): void {}

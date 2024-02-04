@@ -62,11 +62,11 @@
                                     <div class="position-relative mx-2">
                                     <!--<img src="~/images/boton_mini_carrito.png" />--><i class="fa-solid fa-cart-shopping fa-xl"></i>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            {{this.numItems}}
+                                            {{this.numItems$ | async}}
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
                                     </div>
-                                    <span class="ps-2 pe-1"> <small>Total:</small> <span class="text-end" id="precioCarrito" style="width: 110px; font-size: 1.5em"><strong>{{this.subtotalPedido}} €</strong></span></span>
+                                    <span class="ps-2 pe-1"> <small>Total:</small> <span class="text-end" id="precioCarrito" style="width: 110px; font-size: 1.5em"><strong>{{this.subtotalPedido$ | async}} €</strong></span></span>
                                     
                                     <img class="align-content-lg-center mx-2" src="../../assets/images/boton_flecha_minicarrito.png"/>
                                 </a>
