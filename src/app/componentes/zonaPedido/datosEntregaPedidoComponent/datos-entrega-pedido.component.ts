@@ -129,10 +129,6 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
 
   ngOnChanges(): void {
     this.datosEnvioForm = this.pedidoForm.get('datosEnvio') as FormGroup;
-    console.log(
-      'Valor del FormGroup en el ngOnChanges de datos-entrega-pedido.component.ts',
-      this.datosEnvioForm
-    );
   }
   ngOnDestroy(): void {
     this.datosclienteSubsciptor.unsubscribe();

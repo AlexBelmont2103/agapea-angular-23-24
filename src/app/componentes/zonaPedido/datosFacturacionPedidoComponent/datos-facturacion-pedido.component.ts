@@ -25,9 +25,10 @@ export class DatosFacturacionPedidoComponent {
   public checkmismadirecfactura: boolean = true;
   public listaMunicipios$!: Observable<IMunicipio[]>;
   public datosFacturacion!: FormGroup;
+  public datosEnvio!: FormGroup;
 
   constructor(private restSvc: RestnodeService, private render2: Renderer2) {
-    this.datosFacturacion = this.pedidoForm.get('datosFacturacion') as FormGroup;
+    
   }
 
   CheckEmpresaChange(valor: boolean) {
@@ -49,13 +50,6 @@ export class DatosFacturacionPedidoComponent {
     cpFactura: new FormControl('', [Validators.required]),
     }));
     */
-    if (this.checkmismadirecfactura) {
-      this.pedidoForm.get('datosFacturacion.paisFactura')?.setValue(this.pedidoForm.get('pais')?.value);
-      this.pedidoForm.get('datosFacturacion.calleFactura')?.setValue(this.pedidoForm.get('calle')?.value);
-      this.pedidoForm.get('datosFacturacion.provinciaFactura')?.setValue(this.pedidoForm.get('provincia')?.value);
-      this.pedidoForm.get('datosFacturacion.municipioFactura')?.setValue(this.pedidoForm.get('municipio')?.value);
-      this.pedidoForm.get('datosFacturacion.cpFactura')?.setValue(this.pedidoForm.get('cp')?.value);
-    }
   }
 
   CargarMunicipios(provSelec: string) {
@@ -66,8 +60,18 @@ export class DatosFacturacionPedidoComponent {
     this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
   }
   ngOnChanges(): void {
+    this.datosEnvio = this.pedidoForm.get('datosEnvio') as FormGroup;
     this.datosFacturacion = this.pedidoForm.get(
       'datosFacturacion'
     ) as FormGroup;
+    if(this.checkmismadirecfactura){
+      this.datosFacturacion.patchValue({
+        paisFactura: this.datosEnvio.get('pais')?.value,
+        calleFactura: this.datosEnvio.get('calle')?.value,
+        provinciaFactura: this.datosEnvio.get('provincia')?.value,
+        municipioFactura: this.datosEnvio.get('municipio')?.value,
+        cpFactura: this.datosEnvio.get('cp')?.value,
+      });
+    }
   }
 }
