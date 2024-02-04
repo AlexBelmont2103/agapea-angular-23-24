@@ -1,12 +1,14 @@
 <div class="container">
-    <form [formGroup]="formDatosPedido" (ngSubmit)="RegistrarPedido()">
+    <form  [formGroup]="pedidoForm">
     <div class="row">
         <!-- columna para datos del pedido: direccion envio, facturacion, datos pago-->
             <div class="col-7">
-                <app-datos-entrega-pedido (gastosEnvio)="ManejarGastosEnvio($event)" [provincias]="(this.provincias$ | async)!"></app-datos-entrega-pedido>  
+                <app-datos-entrega-pedido [pedidoForm]="pedidoForm" (checkdatosFacturacionEnvio)="ShowCompodatosfacturacion($event)" (gastosEnvio)="ManejarGastosEnvio($event)" [provincias]="(this.provincias$ | async)!"></app-datos-entrega-pedido>  
+                @if(this.showcompodatosfacturacion) {
+                    <app-datos-facturacion-pedido [pedidoForm]="pedidoForm" [listaProvincias]="(this.provincias$ | async)!"></app-datos-facturacion-pedido>
+                }
+                <app-datos-pago-pedido [tituloPago]="this.showcompodatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datos-pago-pedido>
             </div>
-
-
         <!-- columna para elementos del pedido, subtotal, gastos envio y total -->
         <div class="col-5">
             <div class="container">
@@ -53,8 +55,8 @@
                         </a>
                     </div>
                     <div>
-                        <a class="btn btn-primary">
-                            <button type="submit" class="fa-solid fa-truck"></button> Finalizar Pedido
+                        <a (click)="RegistrarPedido()" class="btn btn-primary">
+                            <i class="fa-solid fa-truck"></i> Finalizar Pedido
                         </a>
                     </div>
                 </div>

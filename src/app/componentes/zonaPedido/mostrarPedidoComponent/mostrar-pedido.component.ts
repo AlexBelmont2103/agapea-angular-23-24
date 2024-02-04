@@ -5,14 +5,14 @@ import { ILibro } from '../../../modelos/libro';
 import { IProvincia } from '../../../modelos/provincia';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { IDatosPago } from '../../../modelos/datospago';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-mostrar-pedido',
   templateUrl: './mostrar-pedido.component.html',
   styleUrl: './mostrar-pedido.component.css',
 })
-export class MostrarPedidoComponent implements OnDestroy{
+export class MostrarPedidoComponent implements OnDestroy {
   //Observable que contiene todos los datos del pago
   public datosPago$!: Observable<IDatosPago>;
   public listaItems$!: Observable<
@@ -22,24 +22,30 @@ export class MostrarPedidoComponent implements OnDestroy{
   public gastosEnvio: number = 0;
   public provincias$!: Observable<IProvincia[]>;
   public showcompodatosfacturacion: boolean = false;
-  public formDatosPedido: FormGroup = new FormGroup({
-    datosEnvio: new FormGroup({
-      tipodireccionenvio: new FormControl(''),
-      direccionEnvio: new FormGroup({
-        calle: new FormControl(''),
-        cp: new FormControl(''),
-        pais: new FormControl(''),
-        provincia: new FormControl(''),
-        municipio: new FormControl('',),
-        nombreEnvio: new FormControl(''),
-        apellidosEnvio: new FormControl(''),
-        telefonoEnvio: new FormControl(''),
-        emailEnvio: new FormControl(''),
-      }),
 
+  public pedidoForm: FormGroup = new FormGroup({
+    datosEnvio: new FormGroup({
+      pais: new FormControl('', [Validators.required]),
+      calle: new FormControl('', [Validators.required]),
+      provincia: new FormControl('', [Validators.required]),
+      municipio: new FormControl('', [Validators.required]),
+      cp: new FormControl('', [Validators.required]),
+      nombre: new FormControl('', [Validators.required]),
+      apellidos: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      telefonoContacto: new FormControl('', [Validators.required]),
+      telefonoContactoNuevo: new FormControl(''),
+      otrosDatos: new FormControl(''),
+    }),
+    datosPago: new FormGroup({
+      metodoPago: new FormControl('', [Validators.required]),
+      numeroTarjeta: new FormControl(''),
+      nombreBanco: new FormControl(''),
+      mesCaducidad: new FormControl(''),
+      anioCaducidad: new FormControl(''),
+      cvv: new FormControl(''),
     }),
   });
-
 
   constructor(
     @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService,
@@ -48,8 +54,7 @@ export class MostrarPedidoComponent implements OnDestroy{
     this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
     this.provincias$ = this.restSvc.RecuperarProvincias();
     this.datosPago$ = this.storageSvc.RecuperarDatosPago();
-    //Deshabilitar el select de municipios
-    this.formDatosPedido.get('datosEnvio.direccionEnvio.municipio')?.disable();
+
     //Calcular el subtotal y el total del pedido
     this.subtotalPedido$ = this.listaItems$.pipe(
       map((listaItems: { libroElemento: ILibro; cantidadElemento: number }[]) =>
@@ -62,10 +67,8 @@ export class MostrarPedidoComponent implements OnDestroy{
         )
       )
     );
-
-    
   }
-  showCompodatosfacturacion(check: boolean): void {
+  ShowCompodatosfacturacion(check: boolean): void {
     this.showcompodatosfacturacion = check;
   }
 
@@ -91,12 +94,11 @@ export class MostrarPedidoComponent implements OnDestroy{
   ManejarGastosEnvio(gastosEnvio: number): void {
     this.gastosEnvio = gastosEnvio;
   }
+
   RegistrarPedido(): void {
     console.log('Pedido registrado');
-    console.log(this.formDatosPedido);
+    console.log('Datos del formulario de envio', this.pedidoForm);
   }
 
-  ngOnDestroy(): void {
-    
-  }
+  ngOnDestroy(): void {}
 }
