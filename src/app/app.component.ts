@@ -20,13 +20,13 @@ export class AppComponent {
   public patron: RegExp = new RegExp(
     '(/Cliente/(Login|Registro)|/Tienda/MostrarPedido)'
   );
-  public clientelogged: Observable<ICliente| null>;
+  public clientelogged: Observable<ICliente | null>;
   public tokenSesion!: Observable<string>;
   public listaItems$!: Observable<
     { libroElemento: ILibro; cantidadElemento: number }[]
   >;
-  public numItems!: Observable<number>;
-  public subtotalPedido$!: Observable<number>;
+  public numItems: number = 0;
+  public subtotalPedido: number = 0;
   constructor(
     private router: Router,
     @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService
@@ -38,22 +38,7 @@ export class AppComponent {
       map((ev) => ev as RouterEvent),
       filter((ev, i) => ev instanceof NavigationStart)
     );
-    this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
-    this.numItems = this.listaItems$.pipe(
-      //De cada elemento de la lista, sumo la cantidad
-      map((listaItems) =>
-        listaItems.reduce((acc, item) => acc + item.cantidadElemento, 0)
-      )
-    );
-    this.subtotalPedido$ = this.listaItems$.pipe(
-      //De cada elemento de la lista, sumo el precio por la cantidad
-      map((listaItems) =>
-        listaItems.reduce(
-          (acc, item) => (acc + item.libroElemento.Precio * item.cantidadElemento),
-          0
-        )
-      )
-    );
+
     //Si cambia la url, compruebo si es /Cliente/Panel o /Tienda
     //y muestro el panel correspondiente
     this.routerEvents$.subscribe((ev) => {
@@ -65,7 +50,9 @@ export class AppComponent {
         this.showPanel = '';
       }
     });
-    /*
+  }
+
+  /*
     router.events.subscribe(
       (ev)=>{
         if(ev instanceof NavigationStart){
@@ -81,5 +68,4 @@ export class AppComponent {
       }
     )
     */
-  }
 }

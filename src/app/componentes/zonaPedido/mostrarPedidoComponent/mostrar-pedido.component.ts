@@ -55,6 +55,7 @@ export class MostrarPedidoComponent implements OnDestroy {
     this.provincias$ = this.restSvc.RecuperarProvincias();
     this.datosPago$ = this.storageSvc.RecuperarDatosPago();
 
+
     //Calcular el subtotal y el total del pedido
     this.subtotalPedido$ = this.listaItems$.pipe(
       map((listaItems: { libroElemento: ILibro; cantidadElemento: number }[]) =>
@@ -90,6 +91,7 @@ export class MostrarPedidoComponent implements OnDestroy {
         )
       )
     );
+    //Actualizamos el observable de listaItems$
   }
   ManejarGastosEnvio(gastosEnvio: number): void {
     this.gastosEnvio = gastosEnvio;
