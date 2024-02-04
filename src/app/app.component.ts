@@ -4,6 +4,7 @@ import { Observable, filter, map, tap } from 'rxjs';
 import { ICliente } from './modelos/cliente';
 import { SubjectstorageService } from './servicios/subjectstorage.service';
 import { IStorageService } from './modelos/interfaceservicios';
+import { ILibro } from './modelos/libro';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,11 @@ export class AppComponent {
   );
   public clientelogged: Observable<ICliente| null>;
   public tokenSesion!: Observable<string>;
+  public listaItems$!: Observable<
+    { libroElemento: ILibro; cantidadElemento: number }[]
+  >;
+  public numItems!: Observable<number>;
+  public subtotalPedido$!: Observable<number>;
   constructor(
     private router: Router,
     @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService
@@ -28,16 +34,29 @@ export class AppComponent {
     this.clientelogged = this.storageSvc.RecuperarDatosCliente();
     this.tokenSesion = this.storageSvc.RecuperarJWT();
     this.routerEvents$ = router.events.pipe(
-      tap((ev) => console.log(ev)),
+      //tap((ev) => console.log(ev)),
       map((ev) => ev as RouterEvent),
       filter((ev, i) => ev instanceof NavigationStart)
+    );
+    this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
+    this.numItems = this.listaItems$.pipe(
+      //De cada elemento de la lista, sumo la cantidad
+      map((listaItems) =>
+        listaItems.reduce((acc, item) => acc + item.cantidadElemento, 0)
+      )
+    );
+    this.subtotalPedido$ = this.listaItems$.pipe(
+      //De cada elemento de la lista, sumo el precio por la cantidad
+      map((listaItems) =>
+        listaItems.reduce(
+          (acc, item) => (acc + item.libroElemento.Precio * item.cantidadElemento),
+          0
+        )
+      )
     );
     //Si cambia la url, compruebo si es /Cliente/Panel o /Tienda
     //y muestro el panel correspondiente
     this.routerEvents$.subscribe((ev) => {
-
-      console.log('el cliente logado es...', this.clientelogged);
-      console.log('el token de sesion es...', this.tokenSesion);
       if (ev.url.includes('/Cliente/Panel')) {
         this.showPanel = 'panelCliente';
       } else if (ev.url.includes('/Tienda')) {
