@@ -73,26 +73,12 @@ export class MostrarPedidoComponent implements OnDestroy {
     this.showcompodatosfacturacion = check;
   }
 
-  ModficarItemPedido(item: {
-    libroElemento: ILibro;
-    cantidadElemento: number;
-  }) {
-    if (item.cantidadElemento === 0) {
-      this.storageSvc.OperarElementosPedido(item.libroElemento, 'borrar');
-    }
-    this.subtotalPedido$ = this.listaItems$.pipe(
-      map((listaItems: { libroElemento: ILibro; cantidadElemento: number }[]) =>
-        listaItems.reduce(
-          (
-            acumulador: number,
-            item: { libroElemento: ILibro; cantidadElemento: number }
-          ) => acumulador + item.cantidadElemento * item.libroElemento.Precio,
-          0
-        )
-      )
-    );
-    //Actualizamos el observable de listaItems$
+  ModficarItemPedido( item: [ {libroElemento: ILibro, cantidadElemento:number}, string ]){
+    this.storageSvc.OperarElementosPedido(item[0].libroElemento, item[1]);
+  
   }
+    //Actualizamos el observable de listaItems$
+  
   ManejarGastosEnvio(gastosEnvio: number): void {
     this.gastosEnvio = gastosEnvio;
   }

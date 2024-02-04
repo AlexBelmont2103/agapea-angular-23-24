@@ -8,20 +8,9 @@ import { ILibro } from '../../../modelos/libro';
 })
 export class ElementoPedidoComponent {
   @Input() public elemento!:{libroElemento:ILibro, cantidadElemento:number};
-  @Output() public operarItemEvent:EventEmitter<{libroElemento:ILibro, cantidadElemento:number}>=new EventEmitter<{libroElemento:ILibro, cantidadElemento:number}>();
+  @Output() public operarItemEvent:EventEmitter< [ {libroElemento:ILibro, cantidadElemento:number}, string ] >=new EventEmitter< [ {libroElemento:ILibro, cantidadElemento:number}, string ] >();
   operarItem(tipoOperacion:string){
-    switch(tipoOperacion){
-      case 'agregar':
-        this.agregarItem();
-        break;
-      case 'borrar':
-        this.borrarItem();
-        break;
-      case 'restar':
-        this.restarItem();
-        break;
-    }
-    this.operarItemEvent.emit(this.elemento);
+    this.operarItemEvent.emit([this.elemento, tipoOperacion]);
   }
   agregarItem(){
     this.elemento.cantidadElemento++;
