@@ -109,18 +109,6 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
   }
   ShowCompodatosfacturacion(ev: any){
     //Si checked es true, añadimos un formgroup de datos de facturacion al formgroup de datos del pedido
-    /*
-      datosFacturacion: new FormGroup({
-      tipoFactura: new FormControl('', [Validators.required]),
-      nombreFactura: new FormControl('', [Validators.required]),
-      docfiscalFactura: new FormControl('', [Validators.required]),
-      paisFactura: new FormControl('', [Validators.required]),
-      calleFactura: new FormControl('', [Validators.required]),
-      provinciaFactura: new FormControl('', [Validators.required]),
-      municipioFactura: new FormControl('', [Validators.required]),
-      cpFactura: new FormControl('', [Validators.required]),
-    }),
-    */
    this.pedidoForm.addControl('datosFacturacion', new FormGroup({
     tipoFactura: new FormControl('', [Validators.required]),
     nombreFactura: new FormControl('', [Validators.required]),
