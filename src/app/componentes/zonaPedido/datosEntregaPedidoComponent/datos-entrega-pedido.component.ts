@@ -56,11 +56,12 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
           (direccion: IDireccion) => direccion.esPrincipal === true
         )!;
       });
+    
   }
   cargarMunicipios(event: Event): void {
     const codpro = (event.target as HTMLSelectElement).value.split('-')[0];
     this.listaMunicipios$ = this.restSvc.RecuperarMunicipios(codpro);
-    this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
+    
     //Arpovechamos este método para calcular el precio del envío
     this.CalculaPrecioEnvio(codpro);
   }

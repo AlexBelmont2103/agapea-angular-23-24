@@ -24,11 +24,38 @@ export class DatosFacturacionPedidoComponent {
   public checkempresa: boolean = true;
   public checkmismadirecfactura: boolean = true;
   public listaMunicipios$!: Observable<IMunicipio[]>;
+  public datosFacturacion!: FormGroup;
 
-  constructor(private restSvc: RestnodeService, private render2: Renderer2) {}
+  constructor(private restSvc: RestnodeService, private render2: Renderer2) {
+    this.datosFacturacion = this.pedidoForm.get('datosFacturacion') as FormGroup;
+  }
 
   CheckEmpresaChange(valor: boolean) {
     this.checkempresa = valor;
+  }
+
+  ShowDireccionFactura(ev: any) {
+    this.checkmismadirecfactura = ev.target.checked;
+    //Si el check está marcado, se copian los datos de la dirección de envío a la de facturación
+    /*
+    this.pedidoForm.addControl('datosFacturacion', new FormGroup({
+    tipoFactura: new FormControl('', [Validators.required]),
+    nombreFactura: new FormControl('', [Validators.required]),
+    docfiscalFactura: new FormControl('', [Validators.required]),
+    paisFactura: new FormControl('', [Validators.required]),
+    calleFactura: new FormControl('', [Validators.required]),
+    provinciaFactura: new FormControl('', [Validators.required]),
+    municipioFactura: new FormControl('', [Validators.required]),
+    cpFactura: new FormControl('', [Validators.required]),
+    }));
+    */
+    if (this.checkmismadirecfactura) {
+      this.pedidoForm.get('datosFacturacion.paisFactura')?.setValue(this.pedidoForm.get('pais')?.value);
+      this.pedidoForm.get('datosFacturacion.calleFactura')?.setValue(this.pedidoForm.get('calle')?.value);
+      this.pedidoForm.get('datosFacturacion.provinciaFactura')?.setValue(this.pedidoForm.get('provincia')?.value);
+      this.pedidoForm.get('datosFacturacion.municipioFactura')?.setValue(this.pedidoForm.get('municipio')?.value);
+      this.pedidoForm.get('datosFacturacion.cpFactura')?.setValue(this.pedidoForm.get('cp')?.value);
+    }
   }
 
   CargarMunicipios(provSelec: string) {
@@ -37,5 +64,10 @@ export class DatosFacturacionPedidoComponent {
       provSelec.split('-')[0]
     );
     this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
+  }
+  ngOnChanges(): void {
+    this.datosFacturacion = this.pedidoForm.get(
+      'datosFacturacion'
+    ) as FormGroup;
   }
 }

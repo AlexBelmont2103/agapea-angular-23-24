@@ -7,7 +7,7 @@
                 @if(this.showcompodatosfacturacion) {
                     <app-datos-facturacion-pedido [pedidoForm]="pedidoForm" [listaProvincias]="(this.provincias$ | async)!"></app-datos-facturacion-pedido>
                 }
-                <app-datos-pago-pedido [tituloPago]="this.showcompodatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datos-pago-pedido>
+                <app-datos-pago-pedido [pedidoForm]="pedidoForm" [tituloPago]="this.showcompodatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datos-pago-pedido>
             </div>
         <!-- columna para elementos del pedido, subtotal, gastos envio y total -->
         <div class="col-5">
