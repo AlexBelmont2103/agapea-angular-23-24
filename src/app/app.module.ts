@@ -21,6 +21,8 @@ import { SubjectstorageService } from './servicios/subjectstorage.service';
 import { AuthjwtInterceptor } from './servicios_INTERCEPTORS/authjwt.interceptor';
 import { PanelTiendaComponent } from './componentes/zonaTienda/panelTiendaComponent/panel-tienda.component';
 import { PanelclienteComponent } from './componentes/panelClienteComponent/panelcliente.component';
+import { ZonaclienteModule } from './modulos_zonas/zonacliente.module';
+import { ZonatiendaModule } from './modulos_zonas/zonatienda.module';
 //#endregion
 
 //#region ---- directivas del modulo principal de la aplicacion ----
@@ -49,6 +51,8 @@ import { PanelclienteComponent } from './componentes/panelClienteComponent/panel
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    ZonaclienteModule,
+    ZonatiendaModule,
   ],
   providers: 
   [

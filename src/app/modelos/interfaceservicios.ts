@@ -9,9 +9,9 @@ export interface IStorageService{
     AlmacenarDatosCLiente(datoscliente:ICliente):void;
     AlmacenarJWT(jwt:string):void;
     RecuperarJWT():Observable<string>;
-    RecuperarDatosCliente():Observable<ICliente | null>;
+    RecuperarDatosCliente():Observable<ICliente | null>| ICliente | null;
     OperarElementosPedido(libro:ILibro, operacion:string):void;
-    RecuperarElementosPedido():Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]>;
+    RecuperarElementosPedido():Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]> | { libroElemento: ILibro; cantidadElemento: number; }[];
     //#endregion
 
     //#region metodos ASINCRONOS para servicios indexedDB
