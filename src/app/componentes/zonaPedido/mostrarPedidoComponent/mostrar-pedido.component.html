@@ -1,13 +1,12 @@
 <div class="container">
-    <form  [formGroup]="pedidoForm">
     <div class="row">
         <!-- columna para datos del pedido: direccion envio, facturacion, datos pago-->
             <div class="col-7">
-                <app-datos-entrega-pedido [pedidoForm]="pedidoForm" (checkdatosFacturacionEnvio)="ShowCompodatosfacturacion($event)" (gastosEnvio)="ManejarGastosEnvio($event)" [provincias]="(this.provincias$ | async)!"></app-datos-entrega-pedido>  
+                <app-datos-entrega-pedido [datosPago]="this.datosPago" (checkdatosFacturacionEnvio)="ShowCompodatosfacturacion($event)" (gastosEnvio)="ManejarGastosEnvio($event)" [provincias]="(this.provincias$ | async)!"></app-datos-entrega-pedido>  
                 @if(this.showcompodatosfacturacion) {
-                    <app-datos-facturacion-pedido [pedidoForm]="pedidoForm" [listaProvincias]="(this.provincias$ | async)!"></app-datos-facturacion-pedido>
+                    <app-datos-facturacion-pedido [datosPago]="this.datosPago" [listaProvincias]="(this.provincias$ | async)!"></app-datos-facturacion-pedido>
                 }
-                <app-datos-pago-pedido [pedidoForm]="pedidoForm" [tituloPago]="this.showcompodatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datos-pago-pedido>
+                <app-datos-pago-pedido [datosPago]="this.datosPago" [tituloPago]="this.showcompodatosfacturacion ? '3. - Datos Pago':'2. - Datos Pago'"></app-datos-pago-pedido>
             </div>
         <!-- columna para elementos del pedido, subtotal, gastos envio y total -->
         <div class="col-5">
@@ -64,5 +63,4 @@
             </div>
         </div>
     </div> 
-</form> 
 </div>

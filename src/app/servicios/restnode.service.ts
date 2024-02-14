@@ -6,6 +6,7 @@ import { ICategoria } from '../modelos/categoria';
 import { ILibro } from '../modelos/libro';
 import { IProvincia } from '../modelos/provincia';
 import { IMunicipio } from '../modelos/municipio';
+import { IPedido } from '../modelos/pedido';
 
 @Injectable({
   providedIn: 'root',
@@ -94,6 +95,16 @@ export class RestnodeService {
       `${this.baseUrl}Pedido/RecuperarMunicipios/${cpro}`
     ) as Observable<IMunicipio[]>;
   }
+  public FinalizarPedido( pedido:IPedido, email:string):Promise<{url:string}>{
+    return lastValueFrom(
+                      this.petAjax
+                          .post<{url:string}>(
+                            "http://localhost:3000/api/Tienda/FinalizarPedido",
+                            { pedido, email},
+                            { headers: new HttpHeaders({'Content-Type':'application/json'}) }
+                          )
+                    );
+  } 
 
   //#endregion
 }

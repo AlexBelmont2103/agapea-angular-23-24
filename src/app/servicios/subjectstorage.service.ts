@@ -26,17 +26,11 @@ export class SubjectstorageService implements IStorageService {
   RecuperarElementosPedido(): Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]> {
     return this._elementosPedidoSubject$.asObservable();
   }
-  RecuperarDatosPago(): Observable<IDatosPago> {
-    return this._datosPagoSubject$.asObservable();
-  }
   AlmacenarDatosCLiente(datoscliente: ICliente): void {
     this._clienteSubject$.next(datoscliente);
   }
   AlmacenarJWT(jwt: string): void {
     this._jwtSubject$.next(jwt);
-  }
-  AlmacenarDatosPago(datosPago: IDatosPago): void {
-    this._datosPagoSubject$.next(datosPago);
   }
   OperarElementosPedido(libro: ILibro, operacion: string): void {
     switch (operacion) {

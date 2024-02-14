@@ -1,16 +1,13 @@
-import { IDireccion } from "./direccion";
+import { IDatosPago } from "./datospago";
 import { ILibro } from "./libro";
 
 export interface IPedido {
+    idPedido: string,
     fechaPedido: Date,
     estadoPedido: string,
-    elementosPedido: [
-        {libroElemento: ILibro,
-        cantidadElemento: number}
-    ]
+    elementosPedido: Array< {libroElemento: ILibro, cantidadElemento:number} >,
     subtotalPedido: number,
     gastosEnvioPedido: number,
     totalPedido: number,
-    direccionEnvio: IDireccion,
-    direccionFacturacion: IDireccion,
+    datosPago:IDatosPago
 }

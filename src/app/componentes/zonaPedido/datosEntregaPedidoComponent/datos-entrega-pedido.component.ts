@@ -17,7 +17,6 @@ import { IProvincia } from '../../../modelos/provincia';
 import { IMunicipio } from '../../../modelos/municipio';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { IDatosPago } from '../../../modelos/datospago';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-datos-entrega-pedido',
@@ -26,7 +25,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class DatosEntregaPedidoComponent implements OnDestroy {
   @Input() provincias!: IProvincia[];
-  @Input() pedidoForm!: FormGroup;
+  @Input() datosPago!: IDatosPago;
   @Output() checkdatosFacturacionEnvio: EventEmitter<boolean> =
     new EventEmitter<boolean>();
   @Output() gastosEnvio: EventEmitter<number> = new EventEmitter<number>();
@@ -35,13 +34,21 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
   public datoscliente!: ICliente | null;
   public direccionprincipal!: IDireccion | undefined;
   public otraDireccion: IDireccion | undefined;
-  public datosclienteSubsciptor: Subscription;
   public listaMunicipios$!: Observable<IMunicipio[]>;
-
+  
+  public datosclienteSubsciptor: Subscription;
+  private _dirEnvioIni:IDireccion={
+    calle:        '',
+    pais:         'España',
+    cp:           0,
+    provincia:    { CCOM:'', PRO:'', CPRO:''},
+    municipio:    { CUN:'', CPRO:'', CMUM:'', DMUN50:''},
+    esPrincipal:  true,
+    esFacturacion: false,
+};
   //Variable de tipo switch para ocultar/mostrar partes de la vista
   public checkdirppalenvio: boolean = true;
   public checkclienteloggedenvio: boolean = true;
-  public datosEnvioForm!: FormGroup;
   constructor(
     @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService,
     private restSvc: RestnodeService,
@@ -58,18 +65,18 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
       });
     
   }
-  cargarMunicipios(event: Event): void {
-    const codpro = (event.target as HTMLSelectElement).value.split('-')[0];
+  CargarMunicipios(provselect: string): void {
+    const codpro = provselect.split('-')[0];
     this.listaMunicipios$ = this.restSvc.RecuperarMunicipios(codpro);
-    
+    this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
+    this.datosPago.direccionEnvio!.provincia={CCOM:'', CPRO: provselect.split('-')[0], PRO: provselect.split('-')[1] }
     //Arpovechamos este método para calcular el precio del envío
     this.CalculaPrecioEnvio(codpro);
   }
+  EstableceMunicipio( muniSelec: string){
+    this.datosPago.direccionEnvio!.municipio={CUN:'', CPRO: this.datosPago.direccionEnvio!.provincia.CPRO, CMUM:muniSelec.split('-')[0] , DMUN50: muniSelec.split('-')[1] }
+  }
   CalculaPrecioEnvio(codpro: string): void {
-    //35 el codigo de las palmas
-    //38 el codigo de santa cruz de tenerife
-    //51 es ceuta
-    //52 es melilla
     if (
       codpro === '35' ||
       codpro === '38' ||
@@ -82,53 +89,30 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
     }
   }
 
-  CheckdirPpalEnvio(check: boolean): void {
-    this.checkdirppalenvio = check;
-    //Si es true, los formControl de la direccion de envio se rellean con los datos de la direccion principal
+  CheckdirPpalEnvio(check:boolean){
+    this.checkdirppalenvio=check;
     if (check) {
-      this.datosEnvioForm.patchValue({
-        pais: this.direccionprincipal?.pais,
-        calle: this.direccionprincipal?.calle,
-        provincia: this.direccionprincipal?.provincia,
-        municipio: this.direccionprincipal?.municipio,
-        cp: this.direccionprincipal?.cp,
-      });
+        this.datosPago.tipodireccionenvio='principal';
+        this.datosPago.direccionEnvio=this.direccionprincipal;  
+    } else {
+        this.datosPago.tipodireccionenvio='otradireccion';
+        this.datosPago.direccionEnvio=this._dirEnvioIni;
+
     }
   }
 
-  CheckClienteLoggedEnvio(check: boolean): void {
-    this.checkclienteloggedenvio = check;
-    //Si es true, los formControl de los datos de contacto se rellean con los datos del cliente
-    if (check) {
-      this.datosEnvioForm.patchValue({
-        nombre: this.datoscliente?.nombre,
-        apellidos: this.datoscliente?.apellidos,
-        email: this.datoscliente?.cuenta.email,
-        telefonoContacto: this.datoscliente?.telefono,
-      });
-    }
+  CheckClienteLoggedEnvio(check:boolean){
+    this.checkclienteloggedenvio=check;
   }
   ShowCompodatosfacturacion(ev: any){
-    //Si checked es true, añadimos un formgroup de datos de facturacion al formgroup de datos del pedido
-   this.pedidoForm.addControl('datosFacturacion', new FormGroup({
-    tipoFactura: new FormControl('', [Validators.required]),
-    nombreFactura: new FormControl('', [Validators.required]),
-    docfiscalFactura: new FormControl('', [Validators.required]),
-    paisFactura: new FormControl('', [Validators.required]),
-    calleFactura: new FormControl('', [Validators.required]),
-    provinciaFactura: new FormControl('', [Validators.required]),
-    municipioFactura: new FormControl('', [Validators.required]),
-    cpFactura: new FormControl('', [Validators.required]),
-    }));
-    //Si checked es false, comprobamos si existe el formgroup de datos de facturacion y lo eliminamos
-    if(!ev.target.checked){
-      this.pedidoForm.removeControl('datosFacturacion');
-    }
+   
     this.checkdatosFacturacionEnvio.emit(ev.target.checked);
   }
 
   ngOnChanges(): void {
-    this.datosEnvioForm = this.pedidoForm.get('datosEnvio') as FormGroup;
+    if(!this.checkdirppalenvio){
+      this.datosPago.direccionEnvio=this._dirEnvioIni;
+  }
   }
   ngOnDestroy(): void {
     this.datosclienteSubsciptor.unsubscribe();

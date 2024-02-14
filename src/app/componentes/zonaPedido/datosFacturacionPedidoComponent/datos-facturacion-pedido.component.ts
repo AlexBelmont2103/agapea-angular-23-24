@@ -10,6 +10,7 @@ import { IMunicipio } from '../../../modelos/municipio';
 import { IProvincia } from '../../../modelos/provincia';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { FormGroup } from '@angular/forms';
+import { IDatosPago } from '../../../modelos/datospago';
 
 @Component({
   selector: 'app-datos-facturacion-pedido',
@@ -18,7 +19,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class DatosFacturacionPedidoComponent {
   @Input() listaProvincias!: IProvincia[];
-  @Input() pedidoForm!: FormGroup;
+  @Input() datosPago!: IDatosPago;
   @ViewChild('selectmunis') selectmunis!: ElementRef;
 
   public checkempresa: boolean = true;
@@ -34,22 +35,27 @@ export class DatosFacturacionPedidoComponent {
   CheckEmpresaChange(valor: boolean) {
     this.checkempresa = valor;
   }
+  ChangeDirecFacturacion(){
+    this.checkmismadirecfactura = ! this.checkmismadirecfactura;
+
+    if(this.checkmismadirecfactura) {
+      this.datosPago.direccionFacturacion=this.datosPago.direccionEnvio;
+    } else {
+      this.datosPago.direccionFacturacion={
+                                            calle:        '',
+                                            pais:         'España',
+                                            cp:           0,
+                                            provincia:    { CCOM:'', PRO:'', CPRO:''},
+                                            municipio:    { CUN:'', CPRO:'', CMUM:'', DMUN50:''},
+                                            esPrincipal:  true,
+                                            esFacturacion: false,
+                                      };
+    }
+
+  }
 
   ShowDireccionFactura(ev: any) {
     this.checkmismadirecfactura = ev.target.checked;
-    //Si el check está marcado, se copian los datos de la dirección de envío a la de facturación
-    /*
-    this.pedidoForm.addControl('datosFacturacion', new FormGroup({
-    tipoFactura: new FormControl('', [Validators.required]),
-    nombreFactura: new FormControl('', [Validators.required]),
-    docfiscalFactura: new FormControl('', [Validators.required]),
-    paisFactura: new FormControl('', [Validators.required]),
-    calleFactura: new FormControl('', [Validators.required]),
-    provinciaFactura: new FormControl('', [Validators.required]),
-    municipioFactura: new FormControl('', [Validators.required]),
-    cpFactura: new FormControl('', [Validators.required]),
-    }));
-    */
   }
 
   CargarMunicipios(provSelec: string) {
@@ -58,20 +64,13 @@ export class DatosFacturacionPedidoComponent {
       provSelec.split('-')[0]
     );
     this.render2.removeAttribute(this.selectmunis.nativeElement, 'disabled');
+    this.datosPago.direccionFacturacion!.provincia={CCOM:'', CPRO: provSelec.split('-')[0], PRO: provSelec.split('-')[1] };
+
+  }
+  EstableceMunicipio( muniSelec: string){
+    this.datosPago.direccionEnvio!.municipio={CUN:'', CPRO: this.datosPago.direccionEnvio!.provincia.CPRO, CMUM:muniSelec.split('-')[0] , DMUN50: muniSelec.split('-')[1] }
   }
   ngOnChanges(): void {
-    this.datosEnvio = this.pedidoForm.get('datosEnvio') as FormGroup;
-    this.datosFacturacion = this.pedidoForm.get(
-      'datosFacturacion'
-    ) as FormGroup;
-    if(this.checkmismadirecfactura){
-      this.datosFacturacion.patchValue({
-        paisFactura: this.datosEnvio.get('pais')?.value,
-        calleFactura: this.datosEnvio.get('calle')?.value,
-        provinciaFactura: this.datosEnvio.get('provincia')?.value,
-        municipioFactura: this.datosEnvio.get('municipio')?.value,
-        cpFactura: this.datosEnvio.get('cp')?.value,
-      });
-    }
+
   }
 }

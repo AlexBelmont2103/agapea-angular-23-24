@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, Renderer2, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { IDatosPago } from '../../../modelos/datospago';
 
 @Component({
   selector: 'app-datos-pago-pedido',
@@ -8,9 +9,8 @@ import { FormGroup } from '@angular/forms';
 })
 export class DatosPagoPedidoComponent {
   @Input() tituloPago:string="2. - Datos Pago.";
-  @Input() pedidoForm!: FormGroup;
+  @Input() datosPago!: IDatosPago;
   @ViewChild('datosTarjeta') datosTarjeta!:ElementRef;
-  public datosPago!:FormGroup;
  
   meses:number[]=Array.from({length:12}, (el,pos)=> pos+1);
   //meses:string[]=[ 'Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre' ];
@@ -33,6 +33,6 @@ export class DatosPagoPedidoComponent {
     }
   }
   ngOnChanges():void{
-    this.datosPago=this.pedidoForm.get('datosPago') as FormGroup;
+    
   }
 }

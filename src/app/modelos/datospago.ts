@@ -1,25 +1,27 @@
 import { IDireccion } from "./direccion";
 
 export interface IDatosPago {
-    tipodireccionenvio: string;
-    direccionPrincipal: IDireccion;
-    //Datos envío
-    direccionEnvio: IDireccion;
-    nombreEnvio: string;
-    apellidosEnvio: string;
-    telefonoEnvio: string;
-    emailEnvio: string;
+    //datos envio...
+    tipodireccionenvio: string; //"principal" u "otra"
+    direccionEnvio?: IDireccion;
+    nombreEnvio?: string;
+    apellidosEnvio?: string;
+    telefonoEnvio?: string;
+    emailEnvio?: string;
+    otrosDatos?:string;
 
-    //Datos de facturación
-    tipoFactura: string;
-    nombreFactura: string;
-    docfiscalFactura: string;
+    //datos facturacion
+    tipoDireccionFactura:string; // "igualenvio" u "otra"
+    nombreFactura?:string;
+    docfiscalFactura?:string;
+    direccionFacturacion?: IDireccion;
 
-    //Datos pago
-    metodoPago: string;
-    numeroTarjeta?: string;
-    nombreBanco?: string;
-    mesCaducidad?: string;
-    anioCaducidad?: string;
-    cvv?: string;
+
+    //datos pago
+    metodoPago:string; // "paypal" o "tarjeta"
+    numeroTarjeta?:string;
+    nombreBanco?:string;
+    mesCaducidad?:number;
+    anioCaducidad?:number;
+    cvv?:number;
 }

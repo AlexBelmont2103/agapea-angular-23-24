@@ -12,8 +12,6 @@ export interface IStorageService{
     RecuperarDatosCliente():Observable<ICliente | null>;
     OperarElementosPedido(libro:ILibro, operacion:string):void;
     RecuperarElementosPedido():Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]>;
-    RecuperarDatosPago():Observable<IDatosPago>;
-    AlmacenarDatosPago(datosPago:IDatosPago):void;
     //#endregion
 
     //#region metodos ASINCRONOS para servicios indexedDB
