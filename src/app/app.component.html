@@ -66,8 +66,7 @@
                                             <span class="visually-hidden">unread messages</span>
                                         </span>
                                     </div>
-                                    <span class="ps-2 pe-1"> <small>Total:</small> <span class="text-end" id="precioCarrito" style="width: 110px; font-size: 1.5em"><strong>{{this.subtotalPedido$ | async}} €</strong></span></span>
-                                    
+                                    <span class="ps-2 pe-1"> <small>Total:</small> <span class="text-end" id="precioCarrito" style="width: 110px; font-size: 1.5em"><strong>{{(this.subtotalPedido$ | async)?.toFixed(2)}} €</strong></span></span>
                                     <img class="align-content-lg-center mx-2" src="../../assets/images/boton_flecha_minicarrito.png"/>
                                 </a>
                             </div>

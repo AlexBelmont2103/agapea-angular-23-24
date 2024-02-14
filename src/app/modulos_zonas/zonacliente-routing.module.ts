@@ -5,15 +5,12 @@ import { RegistroComponent } from '../componentes/zonaCliente/registroComponent/
 import { RegistrookComponent } from '../componentes/zonaCliente/registroOkComponent/registrook.component';
 import { IniciopanelComponent } from '../componentes/zonaCliente/inicioPanelComponent/iniciopanel.component';
 const routes: Routes = [
-  {path:'Cliente', children:[
     {path:'Registro', component:RegistroComponent},
     {path:'Login', component:LoginComponent},
     {path:'RegistroOk',component:RegistrookComponent},
     {path: 'Panel',children:[
-      {path: 'InicioPanel', component:IniciopanelComponent}
-    ]}
-  ]}
-];
+    {path: 'InicioPanel', component:IniciopanelComponent}
+    ]}];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
