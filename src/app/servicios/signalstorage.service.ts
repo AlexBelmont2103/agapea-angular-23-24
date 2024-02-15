@@ -1,3 +1,4 @@
+/*
 import { Injectable, signal } from '@angular/core';
 import { IStorageService } from '../modelos/interfaceservicios';
 import { Observable } from 'rxjs';
@@ -29,4 +30,4 @@ export class SignalstorageService implements IStorageService{
   RecuperarElementosPedido(): Observable<{ libroElemento: ILibro; cantidadElemento: number; }[]> {
     throw new Error('Method not implemented.');
   }
-}
+}*/

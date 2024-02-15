@@ -29,7 +29,6 @@ export class MostrarPedidoComponent implements OnDestroy {
     this.listaItems$ = this.storageSvc.RecuperarElementosPedido();
     this.provincias$ = this.restSvc.RecuperarProvincias();
 
-
     //Calcular el subtotal y el total del pedido
     this.subtotalPedido$ = this.listaItems$.pipe(
       map((listaItems: { libroElemento: ILibro; cantidadElemento: number }[]) =>

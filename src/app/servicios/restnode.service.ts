@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Observable, lastValueFrom } from 'rxjs';
 import { IRestMessage } from '../modelos/restmessage';
 import { ICategoria } from '../modelos/categoria';
@@ -7,6 +7,7 @@ import { ILibro } from '../modelos/libro';
 import { IProvincia } from '../modelos/provincia';
 import { IMunicipio } from '../modelos/municipio';
 import { IPedido } from '../modelos/pedido';
+import { IStorageService } from '../modelos/interfaceservicios';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class RestnodeService {
   //en el constructor se inyecta el servicio HttpClient
   //en el componente que se quiera usar este servicio se inyecta el servicio RestnodeService
   private baseUrl: string = 'http://localhost:5000/api/';
-  constructor(private petAjax: HttpClient) {}
+  constructor(@Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService,private petAjax: HttpClient) {}
   //#region metodos para endpoints de cliente
   //Metodo para registrar cliente
   //Pasamos el formulario del componente de registro
@@ -96,12 +97,13 @@ export class RestnodeService {
     ) as Observable<IMunicipio[]>;
   }
   public FinalizarPedido( pedido:IPedido, email:string):Promise<{url:string}>{
+    let tokensesion = this.storageSvc.RecuperarJWT();
     return lastValueFrom(
                       this.petAjax
                           .post<{url:string}>(
-                            "http://localhost:3000/api/Tienda/FinalizarPedido",
+                            "http://localhost:5000/api/Pedido/FinalizarPedido",
                             { pedido, email},
-                            { headers: new HttpHeaders({'Content-Type':'application/json'}) }
+                            { headers: new HttpHeaders({'Content-Type':'application/json', 'Authorization': `Bearer ${tokensesion}`}) }
                           )
                     );
   } 
