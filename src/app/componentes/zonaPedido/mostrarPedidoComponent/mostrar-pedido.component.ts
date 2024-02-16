@@ -5,7 +5,6 @@ import { ILibro } from '../../../modelos/libro';
 import { IProvincia } from '../../../modelos/provincia';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { IDatosPago } from '../../../modelos/datospago';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IPedido } from '../../../modelos/pedido';
 
 @Component({
