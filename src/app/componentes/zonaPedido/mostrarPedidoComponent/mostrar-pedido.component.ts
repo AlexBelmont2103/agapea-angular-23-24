@@ -57,6 +57,11 @@ export class MostrarPedidoComponent implements OnDestroy {
 
   RegistrarPedido(): void {
     console.log('Pedido registrado:',this.datosPago);
+    this.storageSvc.RecuperarJWT().subscribe(
+      token => {
+        localStorage.setItem('tokensesion', token);
+      }
+    );
     //Creamos el pedido para enviarlo al servidor
     /*
     idPedido: string,
@@ -76,7 +81,7 @@ export class MostrarPedidoComponent implements OnDestroy {
       elementosPedido: [],
       subtotalPedido: 0,
       gastosEnvioPedido: this.gastosEnvio,
-      totalPedido: 0,
+      totalPedido:0,
       datosPago: this.datosPago,
     };
 
@@ -86,12 +91,23 @@ export class MostrarPedidoComponent implements OnDestroy {
         let _subtotal=listaItems.reduce( (s,i)=>s + (i.libroElemento.Precio * i.cantidadElemento), 0);
         pedido.subtotalPedido=_subtotal;
         pedido.totalPedido=_subtotal + pedido.gastosEnvioPedido;
+        //Guardamos datos del cliente y jwt en el localstorage
+        
         return this.storageSvc.RecuperarDatosCliente();
-      }),
+      })  
     ).subscribe(
       async clientelog => {
+        this.datosPago.emailEnvio=clientelog!.cuenta.email;
+        this.datosPago.nombreEnvio=clientelog!.nombre;
+        this.datosPago.apellidosEnvio=clientelog!.apellidos;
+        this.datosPago.telefonoEnvio=clientelog!.telefono;
+
         console.log('datos a mandar a server...',{ pedido: pedido, email: clientelog!.cuenta.email});
         let _urlObject=await this.restSvc.FinalizarPedido( pedido, clientelog!.cuenta.email);
+        
+        let _url = JSON.parse(_urlObject.url);
+        console.log('urlObject:',_url);
+        window.location.href=_url.urlPayPal;
         }
     );
 

@@ -17,7 +17,9 @@ export class RestnodeService {
   //en el constructor se inyecta el servicio HttpClient
   //en el componente que se quiera usar este servicio se inyecta el servicio RestnodeService
   private baseUrl: string = 'http://localhost:5000/api/';
-  constructor(@Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService,private petAjax: HttpClient) {}
+  constructor(@Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService,private petAjax: HttpClient) {
+    
+  }
   //#region metodos para endpoints de cliente
   //Metodo para registrar cliente
   //Pasamos el formulario del componente de registro
@@ -37,7 +39,10 @@ export class RestnodeService {
       this.petAjax.post<IRestMessage>(
         this.baseUrl + 'Cliente/Login',
         credenciales,
-        { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+        { headers: new HttpHeaders({ 'Content-Type': 'application/json' }
+        
+        ) },
+        
       )
     );
   }
@@ -103,7 +108,7 @@ export class RestnodeService {
                           .post<{url:string}>(
                             "http://localhost:5000/api/Pedido/FinalizarPedido",
                             { pedido, email},
-                            { headers: new HttpHeaders({'Content-Type':'application/json', 'Authorization': `Bearer ${tokensesion}`}) }
+                            { headers: new HttpHeaders({'Content-Type':'application/json'}) }
                           )
                     );
   } 
