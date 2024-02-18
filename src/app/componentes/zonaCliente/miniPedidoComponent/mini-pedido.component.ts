@@ -20,15 +20,21 @@ addLibroPedido(libro: ILibro){
   this.storageSvc.OperarElementosPedido(libro, 'agregar');
   this.router.navigateByUrl('/Tienda/MostrarPedido');
 }
-generarFacturaPedido(){
-  let doc = new jsPDF();
-  doc.text('Factura de pedido', 10, 10);
+generarFacturaPedido() {
+  const doc = new jsPDF();
+  doc.text(`Factura del pedido: ${this.pedido?.idPedido}`, 10, 10);
   doc.text('Libros:', 10, 20);
   let y = 30;
-  this.pedido?.elementosPedido.forEach(elemento => {
+  this.pedido?.elementosPedido.forEach((elemento) => {
     doc.text(elemento.libroElemento.Titulo, 10, y);
     y += 10;
+    doc.text(`Cantidad: ${elemento.cantidadElemento}`, 10, y);
+    y += 10;
+    doc.text(`Precio: ${elemento.libroElemento.Precio}`, 10, y);
+    y += 10;
   });
+  y += 10;
+  doc.text(`Total: ${this.pedido?.totalPedido}`, 10, y);
   doc.save('FacturaPedido.pdf');
 }
 }
