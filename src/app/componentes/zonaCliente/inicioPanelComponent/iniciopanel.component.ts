@@ -52,8 +52,8 @@ export class IniciopanelComponent {
                               .pipe(
                                        map( 
                                             (cliente:ICliente|null) => {
-                                                      if(cliente && cliente.direccionesCliente && cliente.direccionesCliente.length > 0) {
-                                                          return cliente.direccionesCliente;                                                        
+                                                      if(cliente && cliente.direcciones && cliente.direcciones.length > 0) {
+                                                          return cliente.direcciones;                                                        
                                                       } else {
                                                         return [];
                                                       }

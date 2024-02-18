@@ -7,7 +7,7 @@ export interface ICliente {
     apellidos: string,
     cuenta: ICredenciales,
     telefono: string,
-    direccionesCliente?: IDireccion[],
+    direcciones?: IDireccion[],
     pedidosCliente?: IPedido[],
     genero?: string,
     fechaNacimiento?: Date,

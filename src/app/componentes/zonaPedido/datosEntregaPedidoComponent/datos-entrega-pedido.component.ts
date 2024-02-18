@@ -59,7 +59,7 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
       .RecuperarDatosCliente()
       .subscribe((datoscliente: ICliente | null) => {
         this.datoscliente = datoscliente;
-        this.direccionprincipal = this.datoscliente?.direccionesCliente?.find(
+        this.direccionprincipal = this.datoscliente?.direcciones?.find(
           (direccion: IDireccion) => direccion.esPrincipal === true
         )!;
       });
