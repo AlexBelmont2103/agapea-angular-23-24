@@ -18,7 +18,7 @@
                                         <img src="../../assets/images/botonMINIlogin.png">
                                     </a>
                                 }@else {
-                                    <a routerLink="/Cliente/Panel" class="btn bg-black btn-sm p-0  text-white">
+                                    <a routerLink="/Cliente/Panel/InicioPanel" class="btn bg-black btn-sm p-0  text-white">
                                         {{(this.clientelogged | async)?.cuenta?.email}}
                                     </a>
                                 }
