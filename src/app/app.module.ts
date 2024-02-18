@@ -20,8 +20,8 @@ import { SubjectstorageService } from './servicios/subjectstorage.service';
 
 import { AuthjwtInterceptor } from './servicios_INTERCEPTORS/authjwt.interceptor';
 import { PanelTiendaComponent } from './componentes/zonaTienda/panelTiendaComponent/panel-tienda.component';
-import { PanelclienteComponent } from './componentes/panelClienteComponent/panelcliente.component';
-import { ZonaclienteModule } from './modulos_zonas/zonacliente.module';
+import { PanelclienteComponent } from './componentes/zonaCliente/panelClienteComponent/panelcliente.component';
+import { ZonaclienteModule } from './modulos_zonas/moduloZonaCliente/zonacliente.module';
 import { ZonatiendaModule } from './modulos_zonas/zonatienda.module';
 import { PedidoFinalizadoComponent } from './componentes/zonaPedido/pedidoFinalizadoComponent/pedido-finalizado.component';
 import { BusquedalibrosDirective } from './directivas/busquedalibros.directive';

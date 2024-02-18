@@ -44,7 +44,7 @@ export class DatosFacturacionPedidoComponent {
       this.datosPago.direccionFacturacion={
                                             calle:        '',
                                             pais:         'España',
-                                            cp:           0,
+                                            cp:           '',
                                             provincia:    { CCOM:'', PRO:'', CPRO:''},
                                             municipio:    { CUN:'', CPRO:'', CMUM:'', DMUN50:''},
                                             esPrincipal:  true,

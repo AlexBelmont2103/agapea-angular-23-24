@@ -8,6 +8,7 @@ import { IProvincia } from '../modelos/provincia';
 import { IMunicipio } from '../modelos/municipio';
 import { IPedido } from '../modelos/pedido';
 import { IStorageService } from '../modelos/interfaceservicios';
+import { IDireccion } from '../modelos/direccion';
 
 @Injectable({
   providedIn: 'root',
@@ -65,6 +66,31 @@ export class RestnodeService {
         '&apiKey=' +
         apiKey
     ) as Observable<IRestMessage>;
+  }
+  public RecuperarDatosCliente(email: string): Observable<IRestMessage> {
+    return this.petAjax.get<IRestMessage>(
+      this.baseUrl + 'Cliente/RecuperarDatosCliente/' + email
+    ) as Observable<IRestMessage>;
+  }
+  public async UploadImagen(imagenBASE64:string, email: string): Promise<IRestMessage>  {
+    return await lastValueFrom(
+              this.petAjax.post<IRestMessage>(
+                                                 'http://localhost:5000/api/Cliente/UploadImagen',
+                                                 {imagen: imagenBASE64, emailcliente: email },
+                                                 { headers: new HttpHeaders( {'Content-Type':'application/json'}) }
+                                                 )
+                              );
+  }
+  public async OperarDireccion(direccion:IDireccion, operacion:string, email:string ):  Promise<IRestMessage> {
+    console.log('en servicio, metodo operardireccion, mandando...',{ direccion,operacion,email});
+
+    return await lastValueFrom(
+              this.petAjax.post<IRestMessage>(
+                                                  'http://localhost:5000/api/Cliente/OperarDireccion',
+                                                  { direccion, operacion, email },
+                                                  { headers: new HttpHeaders( {'content-Type':'application/json'} ) }
+                                                )
+    );
   }
   //#endregion
   //#region metodos para endpoints de tienda

@@ -3,7 +3,8 @@ import { IProvincia } from "./provincia";
 
 export interface IDireccion{
     calle: string,
-    cp: number,
+    idDireccion?: string,
+    cp: string,
     pais: string,
     provincia: IProvincia,
     municipio: IMunicipio,

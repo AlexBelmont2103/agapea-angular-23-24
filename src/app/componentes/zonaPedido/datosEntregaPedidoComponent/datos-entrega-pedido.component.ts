@@ -40,7 +40,7 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
   private _dirEnvioIni:IDireccion={
     calle:        '',
     pais:         'España',
-    cp:           0,
+    cp:           '',
     provincia:    { CCOM:'', PRO:'', CPRO:''},
     municipio:    { CUN:'', CPRO:'', CMUM:'', DMUN50:''},
     esPrincipal:  true,
@@ -59,7 +59,7 @@ export class DatosEntregaPedidoComponent implements OnDestroy {
       .RecuperarDatosCliente()
       .subscribe((datoscliente: ICliente | null) => {
         this.datoscliente = datoscliente;
-        this.direccionprincipal = this.datoscliente?.direcciones.find(
+        this.direccionprincipal = this.datoscliente?.direccionesCliente?.find(
           (direccion: IDireccion) => direccion.esPrincipal === true
         )!;
       });
