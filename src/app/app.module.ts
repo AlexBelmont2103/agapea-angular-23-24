@@ -23,6 +23,8 @@ import { PanelTiendaComponent } from './componentes/zonaTienda/panelTiendaCompon
 import { PanelclienteComponent } from './componentes/panelClienteComponent/panelcliente.component';
 import { ZonaclienteModule } from './modulos_zonas/zonacliente.module';
 import { ZonatiendaModule } from './modulos_zonas/zonatienda.module';
+import { PedidoFinalizadoComponent } from './componentes/zonaPedido/pedidoFinalizadoComponent/pedido-finalizado.component';
+import { BusquedalibrosDirective } from './directivas/busquedalibros.directive';
 //#endregion
 
 //#region ---- directivas del modulo principal de la aplicacion ----
@@ -42,7 +44,7 @@ import { ZonatiendaModule } from './modulos_zonas/zonatienda.module';
   [
     AppComponent, 
     PanelTiendaComponent, 
-    PanelclienteComponent,
+    PanelclienteComponent, BusquedalibrosDirective,
   ],
   imports: 
   [

@@ -82,6 +82,11 @@ export class RestnodeService {
       `${this.baseUrl}Tienda/RecuperarLibros/${idcategoria}`
     );
   }
+  public BuscarLibros(busqueda: string): Observable<ILibro[]> {
+    return this.petAjax.get<ILibro[]>(
+      `${this.baseUrl}Tienda/BuscarLibros/${busqueda}`
+    );
+  }
   public RecuperarLibro(isbn13: string): Observable<ILibro> {
     return this.petAjax.get<ILibro>(
       `${this.baseUrl}Tienda/RecuperarLibro/${isbn13}`

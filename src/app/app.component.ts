@@ -5,6 +5,7 @@ import { ICliente } from './modelos/cliente';
 import { SubjectstorageService } from './servicios/subjectstorage.service';
 import { IStorageService } from './modelos/interfaceservicios';
 import { ILibro } from './modelos/libro';
+import { RestnodeService } from './servicios/restnode.service';
 
 @Component({
   selector: 'app-root',
@@ -25,11 +26,22 @@ export class AppComponent {
   public listaItems$!: Observable<
     { libroElemento: ILibro; cantidadElemento: number }[]
   >;
-  public numItems$!: Observable<number>
-  public subtotalPedido$!: Observable<number>
+  public numItems$!: Observable<number>;
+  public subtotalPedido$!: Observable<number>;
+  public librosBusqueda: ILibro[] = [];
+  onBusqueda(busqueda: string) {
+    if(busqueda.length <=0){
+      this.librosBusqueda = [];
+      return;
+    }
+    this.restSvc.BuscarLibros(busqueda).subscribe(libros => {
+      this.librosBusqueda = libros;
+    });
+  }
   constructor(
     private router: Router,
-    @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService
+    @Inject('MI_TOKEN_SERVICIOSTORAGE') private storageSvc: IStorageService,
+    private restSvc: RestnodeService
   ) {
     this.clientelogged = this.storageSvc.RecuperarDatosCliente();
     this.tokenSesion = this.storageSvc.RecuperarJWT();
@@ -59,6 +71,7 @@ export class AppComponent {
         this.showPanel = '';
       }
     });
+    
   }
 
   /*

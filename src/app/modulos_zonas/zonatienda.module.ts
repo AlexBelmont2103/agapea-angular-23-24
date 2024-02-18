@@ -11,6 +11,7 @@ import { DetalleslibroComponent } from '../componentes/zonaTienda/detallesLibroC
 import { LibrosComponent } from '../componentes/zonaTienda/librosComponent/libros.component';
 import { MinilibroComponent } from '../componentes/zonaTienda/miniLibroComponent/minilibro.component';
 import { RedondeocantidadPipe } from '../pipes/redondeocantidad.pipe';
+import { PedidoFinalizadoComponent } from '../componentes/zonaPedido/pedidoFinalizadoComponent/pedido-finalizado.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { RedondeocantidadPipe } from '../pipes/redondeocantidad.pipe';
     DatosEntregaPedidoComponent, 
     DatosFacturacionPedidoComponent, 
     DatosPagoPedidoComponent,
+    PedidoFinalizadoComponent
   ],
   imports: [
     CommonModule,
