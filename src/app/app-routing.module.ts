@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 //Necesitan tener definidos un array de objetos tipo Route
 const routes: Routes = [
   {path:'Cliente', loadChildren:()=>import('./modulos_zonas/moduloZonaCliente/zonacliente.module').then(m=>m.ZonaclienteModule)},
-  {path:'Tienda', loadChildren:()=>import('./modulos_zonas/zonatienda.module').then(m=>m.ZonatiendaModule)},
+  {path:'Tienda', loadChildren:()=>import('./modulos_zonas/moduloZonaTienda/zonatienda.module').then(m=>m.ZonatiendaModule)},
   { path: '', redirectTo: '/Tienda/Libros/2-10', pathMatch:'full' }
 
 ];

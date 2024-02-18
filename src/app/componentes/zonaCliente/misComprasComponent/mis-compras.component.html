@@ -1,0 +1,7 @@
+<h2>Mis Compras</h2>
+<div class="container">
+    @for(pedido of cliente?.pedidosCliente ; track pedido.idPedido){
+        <app-mini-pedido [pedido]="pedido"></app-mini-pedido>
+        <hr>
+    }
+</div>

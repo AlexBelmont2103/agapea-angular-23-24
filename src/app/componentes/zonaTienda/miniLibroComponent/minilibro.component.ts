@@ -16,9 +16,10 @@ export class MinilibroComponent {
 
    }
 
-  AddLibroPedido():void{
+  AddLibroPedido(): void {
     console.log('Libro comprado');
     this.storageSvc.OperarElementosPedido(this.libro, 'agregar');
     this.router.navigateByUrl('/Tienda/MostrarPedido');
+    
   }
 }

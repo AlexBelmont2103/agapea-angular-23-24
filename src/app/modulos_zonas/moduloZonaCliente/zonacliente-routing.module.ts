@@ -4,12 +4,14 @@ import { LoginComponent } from '../../componentes/zonaCliente/loginComponent/log
 import { RegistroComponent } from '../../componentes/zonaCliente/registroComponent/registro.component';
 import { RegistrookComponent } from '../../componentes/zonaCliente/registroOkComponent/registrook.component';
 import { IniciopanelComponent } from '../../componentes/zonaCliente/inicioPanelComponent/iniciopanel.component';
+import { MisComprasComponent } from '../../componentes/zonaCliente/misComprasComponent/mis-compras.component';
 const routes: Routes = [
     {path:'Registro', component:RegistroComponent},
     {path:'Login', component:LoginComponent},
     {path:'RegistroOk',component:RegistrookComponent},
     {path: 'Panel',children:[
-    {path: 'InicioPanel', component:IniciopanelComponent}
+    {path: 'InicioPanel', component:IniciopanelComponent},
+    {path: 'MisCompras', component:MisComprasComponent}
     ]}];
 
 @NgModule({

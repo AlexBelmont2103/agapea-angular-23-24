@@ -22,8 +22,7 @@ import { AuthjwtInterceptor } from './servicios_INTERCEPTORS/authjwt.interceptor
 import { PanelTiendaComponent } from './componentes/zonaTienda/panelTiendaComponent/panel-tienda.component';
 import { PanelclienteComponent } from './componentes/zonaCliente/panelClienteComponent/panelcliente.component';
 import { ZonaclienteModule } from './modulos_zonas/moduloZonaCliente/zonacliente.module';
-import { ZonatiendaModule } from './modulos_zonas/zonatienda.module';
-import { PedidoFinalizadoComponent } from './componentes/zonaPedido/pedidoFinalizadoComponent/pedido-finalizado.component';
+import { ZonatiendaModule } from './modulos_zonas/moduloZonaTienda/zonatienda.module';
 import { BusquedalibrosDirective } from './directivas/busquedalibros.directive';
 //#endregion
 
@@ -44,7 +43,8 @@ import { BusquedalibrosDirective } from './directivas/busquedalibros.directive';
   [
     AppComponent, 
     PanelTiendaComponent, 
-    PanelclienteComponent, BusquedalibrosDirective,
+    PanelclienteComponent, 
+    BusquedalibrosDirective
   ],
   imports: 
   [

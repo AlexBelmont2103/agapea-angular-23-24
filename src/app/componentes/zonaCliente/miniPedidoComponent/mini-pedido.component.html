@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+      <div class="col">
+        Pedido: {{this.pedido?.idPedido}}
+      </div>
+      <div class="col">
+        Fecha: {{this.pedido?.fechaPedido}}
+      </div>
+      <div class="col">
+        Num.Libros: {{this.pedido?.elementosPedido?.length}}
+      </div>
+      <div class="col">
+        Importe Total: {{this.pedido?.totalPedido}} €
+      </div>
+      <div class="col">
+        <button class="btn btn-primary" (click)="generarFacturaPedido()">Generar Factura</button>
+      </div>
+    </div>
+    <hr>
+    @for(elementoPedido of this.pedido?.elementosPedido; track elementoPedido?.libroElemento?.ISBN13){
+        
+        <div class="row">
+            <div class="col">
+              {{elementoPedido?.libroElemento?.ISBN13}}
+            </div>
+            <div class="col">
+                {{elementoPedido?.libroElemento?.Titulo}}
+            </div>
+            <div class="col">
+                {{elementoPedido?.cantidadElemento}}
+            </div>
+            <div class="col">
+                {{elementoPedido?.libroElemento?.Precio}} €
+            </div>
+            <div class="col">
+                {{(elementoPedido?.libroElemento?.Precio || 0) * (elementoPedido?.cantidadElemento || 0)}} €
+            </div>
+            <div class="col">
+              <button class="btn btn-primary" (click)="elementoPedido.libroElemento ? addLibroPedido(elementoPedido.libroElemento) : null">Comprar de nuevo</button>
+            </div>
+            <div class="col">
+              <button class="btn btn-secondary">Valorar libro</button>
+            </div>
+          </div>
+    }
+
+  </div>

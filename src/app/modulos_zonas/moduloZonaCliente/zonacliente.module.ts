@@ -11,6 +11,8 @@ import { ComprobacionexisteemailDirective } from '../../directivas/comprobacione
 import { EmailfilterdomainDirective } from '../../directivas/emailfilterdomain.directive';
 import { ModaldireccionesComponent } from '../../componentes/zonaCliente/modalDireccionesComponent/modaldirecciones.component';
 import { MinidireccionComponent } from '../../componentes/zonaCliente/miniDireccionComponent/minidireccion.component';
+import { MisComprasComponent } from '../../componentes/zonaCliente/misComprasComponent/mis-compras.component';
+import { MiniPedidoComponent } from '../../componentes/zonaCliente/miniPedidoComponent/mini-pedido.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { MinidireccionComponent } from '../../componentes/zonaCliente/miniDirecc
     RegistrookComponent,
     IniciopanelComponent,
     ModaldireccionesComponent,
-    MinidireccionComponent
+    MinidireccionComponent,
+    MisComprasComponent,
+    MiniPedidoComponent
   ],
   imports: [
     CommonModule,

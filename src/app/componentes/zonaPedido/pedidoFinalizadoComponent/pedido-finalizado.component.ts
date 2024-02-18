@@ -4,6 +4,7 @@ import { IRestMessage } from '../../../modelos/restmessage';
 import { IStorageService } from '../../../modelos/interfaceservicios';
 import { RestnodeService } from '../../../servicios/restnode.service';
 import { Observable, async, switchMap } from 'rxjs';
+import { IPedido } from '../../../modelos/pedido';
 
 @Component({
   selector: 'app-pedido-finalizado',
@@ -12,6 +13,8 @@ import { Observable, async, switchMap } from 'rxjs';
 })
 export class PedidoFinalizadoComponent implements OnInit{
 private _jwt:string="";
+public pedido?: IPedido |null=null;
+public email?:string="";
 constructor(
   private route: ActivatedRoute,
   private restService: RestnodeService,
@@ -40,7 +43,11 @@ constructor(
       if (_respuesta && _respuesta.datoscliente) {
         console.log('almacenando datos cliente...', _respuesta.datoscliente);
         this.storageSvc.AlmacenarDatosCLiente(_respuesta.datoscliente);
-        //Tendria que avisar al app.component para que actualice el menu de la zona cliente
+        
+        //4º: Recuperamos el pedido usando el parametro idpedido de la url
+        const _idpedido:string=this.route.snapshot.queryParams['idpedido'];
+        this.pedido= _respuesta.datoscliente.pedidosCliente?.find(pedido => pedido.idPedido === _idpedido);
+        this.email = this.pedido?.datosPago?.emailEnvio;
 
       }
     });
